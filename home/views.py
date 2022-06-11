@@ -98,6 +98,8 @@ def section(request, num):
             return HttpResponseRedirect('checklog')
         if num == 4:
             return HttpResponseRedirect('category')
+        if num == 5:
+            return HttpResponseRedirect('get_data')
     else:
         raise Http404("No such section")
 
@@ -416,6 +418,16 @@ def add(request):
     c = cat.objects.all()
     return render(request, 'add.html', {'c': c})
 
+def get_data(request):
+
+    if request.method == "POST":
+        aadhar_number = request.POST.get('aadhar')
+        data = Face.objects.get(adharno=aadhar_number)
+        context = {'table_list': data}
+        return render(request, 'get_data.html', context)
+    else:
+        pass
+    return render(request, 'get_data.html')
 
 def checklog(request):
     task = Save.objects.all()
