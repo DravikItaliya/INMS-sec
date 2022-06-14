@@ -166,7 +166,8 @@ classesnav ul li {
                       <th>Category</th>
                       <th>Time IN</th>
                       <th>Time OUT</th>
-
+                      <th>Date IN</th>
+                      <th>Date OUT</th>
                        {% for i in task%}
                     </tr>
 
@@ -176,8 +177,11 @@ classesnav ul li {
                       <td>{{i.adharno}}</td>
                       <td>{{i.blacklist}}</td>
                       <td>{{i.cat}}</td>
-                    <td>{{i.timein}}</td>
-                    <td>{{i.timeout}}</td>
+                      <td>{{i.timein}}</td>
+                      <td>{{i.timeout}}</td>
+                      <td>{{i.datein}}</td>
+                      <td>{{i.dateout}}</td>
+
 
                           {% endfor %}
 
