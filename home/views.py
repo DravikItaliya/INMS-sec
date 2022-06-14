@@ -84,7 +84,15 @@ def logout(request):
 
 def index(request):
     if request.method == 'POST':
-        print("request.method")
+        try:
+            aadhar = request.POST.get('aadhar')
+            f = open('name.txt', 'w')
+            data = Face.objects.get(adharno=aadhar)
+            f.write(data.name)
+            f.close()
+            
+        except:
+            raise Http404("No such entry")
     return render(request, "index.html")
 
 
@@ -311,6 +319,16 @@ def view(request):
     f = open('name.txt', 'r')
     name = str(f.readline())
     task = Face.objects.all()
+
+    # aadhar = request.session.get('aadhar')
+    # i = Face.objects.get(adharno=aadhar)
+    # del request.session['aadhar']
+    # if aadhar = None:
+    #     img_name = f"http://127.0.0.1:8000/static/dataset/{i.name}/opencv_frame_0.png"
+    #     return render(request, 'view.html',
+    #                   {'Name': i.name, 'Number': i.number, 'Rank': i.rank, 'Adhar': i.adharno, 'snumber': i.snumber,
+    #                    'Cat': i.cat, 'B': i.blacklist, 'img_name': img_name, 'gender': i.gender, 'sup': sup})
+    # else:
     for i in task:
         # print(i.name)
         if i.name == name:
@@ -371,10 +389,9 @@ def view(request):
                 a.save()
                 return HttpResponseRedirect('/')
             else:
-                pass
-            return render(request, 'view.html',
-                          {'Name': Name, 'Number': Number, 'Rank': Rank, 'Adhar': Adhar, 'snumber': snumber, 'Cat': Cat,
-                           'B': B, 'img_name': img_name, 'gender': gender, 'sup': sup})
+                return render(request, 'view.html',
+                              {'Name': Name, 'Number': Number, 'Rank': Rank, 'Adhar': Adhar, 'snumber': snumber,
+                               'Cat': Cat, 'B': B, 'img_name': img_name, 'gender': gender, 'sup': sup})
 
     return render(request, 'view.html')
 
@@ -418,16 +435,10 @@ def add(request):
     c = cat.objects.all()
     return render(request, 'add.html', {'c': c})
 
-def get_data(request):
 
-    if request.method == "POST":
-        aadhar_number = request.POST.get('aadhar')
-        data = Face.objects.get(adharno=aadhar_number)
-        context = {'table_list': data}
-        return render(request, 'get_data.html', context)
-    else:
-        pass
+def get_data(request):
     return render(request, 'get_data.html')
+
 
 def checklog(request):
     task = Save.objects.all()

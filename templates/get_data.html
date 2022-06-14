@@ -215,7 +215,7 @@ classesnav ul li {
   <section id="supervisor">
     <center>
         <div class="row">
-            <form method="post" action="sections/get_data/">
+            <form method="post" action="/">
                 {% csrf_token %}
                 <div class="info">
                     <table class="table table-bordered table-dark" cellspacing="0" width="100%">
@@ -239,40 +239,11 @@ classesnav ul li {
                             </tbody>
                     </table>
                     <button class="btn btn-primary" type="submit">Get Details</button>
-                    <div style="">
-                        {% if table_list %}
-                                <table class="table table-bordered table-dark" cellspacing="0" width="100%">
-                                    <tbody>
-                                    <tr>
-                                        <td>Name: </td>
-                                        <td>{{ table_list.name }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Rank: </td>
-                                        <td>{{ table_list.rank }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Phone Number: </td>
-                                        <td>{{ table_list.number }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Aadhar No: </td>
-                                        <td>{{ table_list.adharno }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Category: </td>
-                                        <td>{{ table_list.cat }}</td>
-                                    </tr>
-                                    </tbody>
-                            </table>
-                        {% endif %}
-                    </div>
 
                 </div>
             </form>
         </div>
     </center>
   </section>
-
 </body>
 </html>
