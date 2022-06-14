@@ -269,6 +269,53 @@ function myFunction() {
   }
 }
 
+var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+function dateFormat(d){
+  var t = new Date(d);
+  return monthNames[t.getMonth()]+" "+t.getDate()+', '+t.getFullYear();
+}
+
+function myFunction1() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("start").value;
+  input = dateFormat(input);
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[8];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      console.log(txtValue);
+      if (txtValue.indexOf(input) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+
+<!--function myFunction2() {-->
+<!--  var input, filter, table, tr, td, i, txtValue;-->
+<!--  var date_end = document.getElementById("end");-->
+<!--  table = document.getElementById("myTable");-->
+
+<!--  tr = table.getElementsByTagName("tr");-->
+<!--  for (i = 0; i < tr.length; i++) {-->
+<!--    td = tr[i].getElementsByTagName("td")[0];-->
+<!--    if (td) {-->
+<!--      txtValue = td.textContent || td.innerText;-->
+<!--      if (txtValue.toUpperCase().indexOf(filter) > -1) {-->
+<!--        tr[i].style.display = "";-->
+<!--      } else {-->
+<!--        tr[i].style.display = "none";-->
+<!--      }-->
+<!--    }-->
+<!--  }-->
+<!--}-->
+
 
 </script>
 </body>
