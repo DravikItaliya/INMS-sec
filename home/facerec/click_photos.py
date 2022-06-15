@@ -4,7 +4,7 @@ import face_recognition
 
 class Video(object):
     def __init__(self):
-        self.video = cv2.VideoCapture('http://11.0.0.26:8888/out.jpg')
+        self.video = cv2.VideoCapture(0)
 
     def __del__(self):
         self.video.release()

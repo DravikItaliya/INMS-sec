@@ -17,5 +17,4 @@ urlpatterns = [
     path('sections/checklog/',views.checklog, name='checklog'),
     path('sections/<int:num>', views.section, name='section'),
     path('video_feed1', views.video_feed1, name='video_feed1'),
-    path('sections/get_data/', views.get_data, name="get_data")
 ]

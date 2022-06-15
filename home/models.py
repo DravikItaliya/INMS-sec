@@ -49,11 +49,13 @@ class super(models.Model):
 		return self.supervisor
 	
 class Entry(models.Model):
-	srno = models.CharField(max_length=50)
-	Name = models.CharField(max_length=50)
-	place = models.CharField(max_length=12)
+	name = models.CharField(max_length=50)
 	purpose = models.CharField(max_length=50)
 	supervisor = models.CharField(max_length=50)
+	# new fields
+	inDb = models.BooleanField(default=False)
+	faceMatched = models.BooleanField(default=False)
+
 	def __str__(self):
 		return self.srno
 
@@ -88,6 +90,7 @@ class Save(models.Model):
 	datein = models.DateField(null=True)
 	timeout=models.TimeField(null=True)
 	dateout = models.DateField(null=True)
+
 	def __str__(self):
 		return self.name
 

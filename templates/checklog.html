@@ -154,6 +154,7 @@ classesnav ul li {
 
                 <div class="card-header pb-0">
                       <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+                      <input type="date" id="start" onchange="myFunction1()" placeholder="Search for date in.." title="select date in">
 
                   <table id="myTable">
 
@@ -166,6 +167,8 @@ classesnav ul li {
                       <th>Category</th>
                       <th>Time IN</th>
                       <th>Time OUT</th>
+                      <th>Date IN</th>
+                      <th>Date OUT</th>
 
                        {% for i in task%}
                     </tr>
@@ -178,6 +181,8 @@ classesnav ul li {
                       <td>{{i.cat}}</td>
                     <td>{{i.timein}}</td>
                     <td>{{i.timeout}}</td>
+                    <td>{{i.datein}}</td>
+                      <td>{{i.dateout}}</td>
 
                           {% endfor %}
 

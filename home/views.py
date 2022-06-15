@@ -23,7 +23,9 @@ import imutils
 from django.contrib import messages
 import threading
 import base64
+import warnings
 
+warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 def Login(request):
     if request.method == 'POST':
@@ -86,13 +88,17 @@ def index(request):
     if request.method == 'POST':
         try:
             aadhar = request.POST.get('aadhar')
-            f = open('name.txt', 'w')
-            data = Face.objects.get(adharno=aadhar)
-            f.write(data.name)
+            f = open('name1.txt', 'w')
+            try:
+                data = Face.objects.get(adharno=aadhar)
+                print(data)
+                f.write(data.name)
+            except:
+                f.write('NA')
             f.close()
-            
         except:
             raise Http404("No such entry")
+
     return render(request, "index.html")
 
 
@@ -131,7 +137,7 @@ def Start_Webcam(request):
 
 class VideoCamera1(object):
     def __init__(self):
-        self.video = cv2.VideoCapture('http://11.0.0.26:8888/out.jpg')
+        self.video = cv2.VideoCapture(0)
 
     def __del__(self):
         self.video.release()
@@ -241,6 +247,9 @@ class VideoCamera1(object):
                     font = cv2.FONT_HERSHEY_DUPLEX
                     cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (0, 0, 0), 1)
                     identify1(frame, name, buf, buf_length, known_conf)
+                    file = open("name.txt", 'w')
+                    file.write(str(name))
+                    file.close()
 
                 face_names.append(name)
 
@@ -314,60 +323,45 @@ def click(dirName):
     cv2.destroyAllWindows()
 
 
+
 def view(request):
     sup = Face.objects.filter(cat='Supervisor')
     f = open('name.txt', 'r')
     name = str(f.readline())
+
+    try:
+        f1 = open('name1.txt', 'r')
+        name1 = str(f1.readline())
+
+        f1.close()
+        # print("name1" + str(name1))
+    except:
+        pass
+
     task = Face.objects.all()
 
-    # aadhar = request.session.get('aadhar')
-    # i = Face.objects.get(adharno=aadhar)
-    # del request.session['aadhar']
-    # if aadhar = None:
-    #     img_name = f"http://127.0.0.1:8000/static/dataset/{i.name}/opencv_frame_0.png"
-    #     return render(request, 'view.html',
-    #                   {'Name': i.name, 'Number': i.number, 'Rank': i.rank, 'Adhar': i.adharno, 'snumber': i.snumber,
-    #                    'Cat': i.cat, 'B': i.blacklist, 'img_name': img_name, 'gender': i.gender, 'sup': sup})
-    # else:
+    if name == 'unknown':
+        if name1 == 'NA':
+            u = name
+            return render(request, 'view.html', {'data': u})
+
     for i in task:
-        # print(i.name)
         if i.name == name:
             # i.name=(i.name).replace(' ','_')
             img_name = f"static/dataset/{i.name}/opencv_frame_0.png"
-            print(i.name)
             Name = i.name
-            print(i.rank)
             Rank = i.rank
-            print(i.number)
             Number = i.number
-            print(i.adharno)
             Adhar = i.adharno
-            print(i.cat)
             Cat = i.cat
             gender = i.gender
-            print(gender)
-            print(i.blacklist)
             B = i.blacklist
-            print(i.snumber)
             snumber = i.snumber
-            if 'correct' in request.POST:
-                a = accuracy(unknown=0, correct=1, incorrect=0, name=Name)
-                a.save()
-                return HttpResponseRedirect('/')
-
-            if 'incorrect' in request.POST:
-                a = accuracy(unknown=0, correct=0, incorrect=1, name=Name)
-                a.save()
-                return HttpResponseRedirect('/')
-
-            if 'unknown' in request.POST:
-                a = accuracy(unknown=1, correct=0, incorrect=0, name=Name)
-                a.save()
-                return HttpResponseRedirect('/')
 
             if 'In' in request.POST:
                 supervisor = request.POST.get('supervisor')
                 token = request.POST.get('token')
+                purpose = request.POST.get('purpose')
                 date = datetime.datetime.now().date()
                 time = datetime.datetime.now().time()
 
@@ -375,6 +369,8 @@ def view(request):
                 timein = datetime.datetime.now().time()
                 a = Save(name=Name, rank=Rank, number=Number, adharno=Adhar, snumber=snumber, cat=Cat,
                          supervisor=supervisor, token=token, blacklist=B, timein=timein, datein=datein)
+                d = Entry(name=Name, purpose=purpose, supervisor=supervisor, inDb=True, faceMatched=True)
+                d.save()
                 a.save()
                 return HttpResponseRedirect('/')
 
@@ -388,10 +384,60 @@ def view(request):
                 dateout = a.dateout
                 a.save()
                 return HttpResponseRedirect('/')
+
             else:
                 return render(request, 'view.html',
                               {'Name': Name, 'Number': Number, 'Rank': Rank, 'Adhar': Adhar, 'snumber': snumber,
-                               'Cat': Cat, 'B': B, 'img_name': img_name, 'gender': gender, 'sup': sup})
+                               'Cat': Cat, 'B': B, 'img_name': img_name, 'gender': gender, 'sup': sup, 'data': 'known'})
+
+    if name1 != 'NA':
+        for i in task:
+            # print(i.name)
+            if i.name == name1:
+                # i.name=(i.name).replace(' ','_')
+                img_name = f"static/dataset/{i.name}/opencv_frame_0.png"
+                Name = i.name
+                Rank = i.rank
+                Number = i.number
+                Adhar = i.adharno
+                Cat = i.cat
+                gender = i.gender
+                B = i.blacklist
+                snumber = i.snumber
+
+                if 'In' in request.POST:
+                    print('here1')
+                    supervisor = request.POST.get('supervisor')
+                    token = request.POST.get('token')
+                    purpose = request.POST.get('purpose')
+                    date = datetime.datetime.now().date()
+                    time = datetime.datetime.now().time()
+
+                    datein = datetime.datetime.now().date()
+                    timein = datetime.datetime.now().time()
+                    a = Save(name=Name, rank=Rank, number=Number, adharno=Adhar, snumber=snumber, cat=Cat,
+                             supervisor=supervisor, token=token, blacklist=B, timein=timein, datein=datein)
+                    d = Entry(name=Name, purpose=purpose, supervisor=supervisor, inDb=True, faceMatched=False)
+                    d.save()
+                    a.save()
+                    return HttpResponseRedirect('/')
+
+                if 'Out' in request.POST:
+                    a = Save.objects.filter(name=Name).last()
+                    a.timeout = datetime.datetime.now().time()
+                    a.dateout = datetime.datetime.now().date()
+                    timein = a.timein
+                    datein = a.datein
+                    timeout = a.timeout
+                    dateout = a.dateout
+                    a.save()
+                    return HttpResponseRedirect('/')
+                else:
+                    return render(request, 'view.html',
+                                  {'Name': Name, 'Number': Number, 'Rank': Rank, 'Adhar': Adhar, 'snumber': snumber,
+                                   'Cat': Cat, 'B': B, 'img_name': img_name, 'gender': gender, 'sup': sup, 'data': 'known'})
+
+
 
     return render(request, 'view.html')
 
@@ -434,10 +480,6 @@ def add(request):
         pass
     c = cat.objects.all()
     return render(request, 'add.html', {'c': c})
-
-
-def get_data(request):
-    return render(request, 'get_data.html')
 
 
 def checklog(request):

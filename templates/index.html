@@ -168,6 +168,39 @@ classesnav ul li {
               <p class="mb-0"></p>
             </div>
           </div>
+          <section id="supervisor">
+              <center>
+                  <div class="row">
+                      <form method="post" action="/">
+                          {% csrf_token %}
+                          <div class="info">
+                              <table class="table table-bordered table-dark" cellspacing="0" width="100%">
+                                      <thead>
+                                      <tr>
+                                          <th colspan = "2"><b><center>Get Data</center></b></th>
+                                      </tr>
+                                      </thead>
+
+                                      <tbody>
+                                      <tr>
+                                          <label for="aadhar"><td>Enter Adhar number</td></label>
+                                          <td><input type="text" pattern="\d*" class="fname"
+                                                     onwheel="this.blur()" id="aadhar" name="aadhar"
+                                                     maxlength="12" minlength="12" placeholder="Adhar Number"
+                                                     required></td>
+                                      </tr>
+
+
+                                      <tr></tr>
+                                      </tbody>
+                              </table>
+                              <button class="btn btn-primary" name='get_data' type="submit">Get Details</button>
+
+                          </div>
+                      </form>
+                  </div>
+              </center>
+            </section>
         </div>
 
         <div class="col-lg-8 col-md-8 mb-md-0 mb-4">
@@ -179,7 +212,6 @@ classesnav ul li {
                   <button id="add" data-section="2" href="add/" class="btn">Add Personnel</button>
                   <button id="checklog" data-section="3" href="checklog/" class="btn">Check Logs</button>
                   <button id="cat" data-section="4" href="cat/" class="btn">Update Category</button>
-                  <button id="get_data" data-section="5" href="get_data/" class="btn">Get Details</button>
                   <div id="content">
 
                   </div>
@@ -269,6 +301,34 @@ function myFunction() {
   }
 }
 
+var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+function dateFormat(d){
+  var t = new Date(d);
+  return monthNames[t.getMonth()]+" "+t.getDate()+', '+t.getFullYear();
+}
+
+function myFunction1() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("start").value;
+  input = dateFormat(input);
+  console.log(input);
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[8];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      console.log(txtValue);
+      if (txtValue.indexOf(input) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
 
 </script>
 </body>

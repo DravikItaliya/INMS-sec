@@ -214,7 +214,6 @@ classesnav ul li {
         </thead>
 
 
-
         <p id="Name" class="d-none">{{Name}}</p>
 
         <tbody>
@@ -223,7 +222,7 @@ classesnav ul li {
           <td>Name</td>
           <td>{{Name}}</td>
 <!--          <td><label id="lblname" name="lblname"></label></td>-->
-          <td rowspan="10"><center><div class="text-bottom">
+          <td rowspan="7"><center><div class="text-bottom">
             <img src={{img_name}} width="280" height="360">
             <a></a>
           </div></center></td>
@@ -269,6 +268,10 @@ classesnav ul li {
           <td>{{B}}</td>
         </tr>
 
+        <tr>
+          <td>Matched</td>
+          <td colspan="2">{{ data }}</td>
+        </tr>
         <tr></tr>
         </tbody>
       </table>
@@ -295,6 +298,10 @@ classesnav ul li {
 
               <label for="token"><td>Token</td></label>
               <td><center><input type="text" class="fname" id="token" name="token" placeholder="Token"></center></td>
+              </tr>
+            <tr>
+               <label for="purpose"><td>Purpose</td></label>
+              <td><center><input type="text" class="fname" id="purpose" name="purpose" placeholder="Purpose"></center></td>
             </tr>
             <tr></tr>
             </tbody>
@@ -303,9 +310,9 @@ classesnav ul li {
         <button type="submit" class="btn btn-info btn-lg col-xs-2 margin-left" name="In">In</button>
         <button type="submit" class="btn btn-info btn-lg col-xs-2 margin-left" name="Out">Out</button>
         <p>
-          <button type="submit" class="btn btn-success btn-lg col-xs-2 margin-left" name="correct">Correct</button>
-          <button type="submit" class="btn btn-danger btn-lg col-xs-2 margin-left" name="unknown">Unknown</button>
-          <button type="submit" class="btn btn-warning btn-lg col-xs-2 margin-left" name="incorrect">Incorrect</button>
+<!--          <button type="submit" class="btn btn-success btn-lg col-xs-2 margin-left" name="correct">Correct</button>-->
+<!--          <button type="submit" class="btn btn-danger btn-lg col-xs-2 margin-left" name="unknown">Unknown</button>-->
+<!--          <button type="submit" class="btn btn-warning btn-lg col-xs-2 margin-left" name="incorrect">Incorrect</button>-->
         </p>
       </form>
         </div>
